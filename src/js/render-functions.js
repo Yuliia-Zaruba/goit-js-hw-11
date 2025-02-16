@@ -1,6 +1,11 @@
-// render-functions.js
-export function renderGallery(images, container) {
-  const markup = images
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
+const gallery = document.querySelector('.gallery');
+let lightbox;
+
+export function renderImages(images) {
+  gallery.innerHTML = images
     .map(
       ({
         webformatURL,
@@ -10,19 +15,24 @@ export function renderGallery(images, container) {
         views,
         comments,
         downloads,
-      }) => `
-        <a href="${largeImageURL}" class="gallery-item">
-            <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-            <div class="info">
-                <p><b>Likes:</b> ${likes}</p>
-                <p><b>Views:</b> ${views}</p>
-                <p><b>Comments:</b> ${comments}</p>
-                <p><b>Downloads:</b> ${downloads}</p>
-            </div>
-        </a>
+      }) => `<li class="gallery-item">
+      <a href="${largeImageURL}" class="gallery-link">
+        <img src="${webformatURL}" alt="${tags}" />
+        <div class="info">
+          <p>Likes: ${likes}</p>
+          <p>Views: ${views}</p>
+          <p>Comments: ${comments}</p>
+          <p>Downloads: ${downloads}</p>
+        </div>
+      </a>
+      </li>
     `
     )
-    .join(''); // Создаём HTML-строку из массива изображений
+    .join('');
 
-  container.innerHTML = markup; // Вставляем в контейнер галереи
+  if (lightbox) {
+    lightbox.refresh();
+  } else {
+    lightbox = new SimpleLightbox('.gallery a');
+  }
 }

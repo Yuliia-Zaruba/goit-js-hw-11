@@ -1,46 +1,41 @@
-// Импортируем необходимые модули и библиотеки
-import { fetchImages } from './js/pixabay-api.js'; // Функция для запроса к API
-import { renderGallery } from './js/render-functions.js'; // Функция отрисовки галереи
-import iziToast from 'izitoast'; // Библиотека для уведомлений
-import 'izitoast/dist/css/iziToast.min.css'; // Стили для iziToast
-import SimpleLightbox from 'simplelightbox'; // Библиотека для модального просмотра изображений
-import 'simplelightbox/dist/simple-lightbox.min.css'; // Стили для SimpleLightbox
+import { fetchImages } from './js/pixabay-api.js';
+import { renderImages } from './js/render-functions.js';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-// Получаем элементы из DOM
-const form = document.querySelector('#search-form'); // Форма поиска
-const gallery = document.querySelector('#gallery'); // Галерея изображений
-const loader = document.querySelector('#loader'); // Индикатор загрузки
-let lightbox; // Переменная для SimpleLightbox
+const form = document.querySelector('.search-form');
+const loader = document.querySelector('.loader');
+const gallery = document.querySelector('.gallery');
 
-// Добавляем обработчик события на форму
 form.addEventListener('submit', async event => {
-  event.preventDefault(); // Отменяем стандартное поведение формы
-  const query = event.target.elements.searchQuery.value.trim(); // Получаем введенный текст
+  event.preventDefault();
+  const query = event.target.elements.query.value.trim();
 
-  // Проверяем, введено ли значение
   if (!query) {
-    iziToast.warning({ message: 'Please enter a search term' }); // Показываем предупреждение
+    iziToast.warning({ message: 'Please enter a search query!' });
     return;
   }
 
-  gallery.innerHTML = ''; // Очищаем галерею перед новым запросом
-  loader.style.display = 'block'; // Показываем индикатор загрузки
+  loader.style.display = 'block';
+  gallery.innerHTML = '';
 
   try {
-    const images = await fetchImages(query); // Выполняем запрос к API
+    const images = await fetchImages(query);
 
-    // Проверяем, есть ли изображения в ответе
     if (images.length === 0) {
-      iziToast.error({ message: 'Sorry, no images found!' }); // Показываем ошибку
+      iziToast.error({
+        message:
+          'Sorry, there are no images matching your search query. Please try again!',
+      });
       return;
-    } else {
-      renderGallery(images, gallery); // Отрисовываем галерею
-      lightbox = new SimpleLightbox('.gallery a');
-      lightbox.refresh(); // Обновляем SimpleLightbox
     }
+
+    renderImages(images);
   } catch (error) {
-    iziToast.error({ message: 'Something went wrong!' }); // Показываем сообщение об ошибке
+    iziToast.error({
+      message: 'Something went wrong. Please try again later.',
+    });
   } finally {
-    loader.style.display = 'none'; // Скрываем индикатор загрузки
+    loader.style.display = 'none';
   }
 });
