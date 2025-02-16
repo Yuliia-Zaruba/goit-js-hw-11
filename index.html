@@ -2,27 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Search App</title>
-    <link rel="stylesheet" href="./styles.css" />
-    <!-- ПОДКЛЮЧАЕМ СТИЛИ ЗДЕСЬ -->
+    <title>Homework 11</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <script type="module" crossorigin src="/goit-js-hw-11/index.js"></script>
-    <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-Fd3mU3Z4.js">
-    <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/vendor-Dr4k8ETB.css">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-11/assets/vendor-CtnHdr7b.js">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/vendor-CX4EDM7x.css">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-11/assets/index-DDACPutF.css">
   </head>
   <body>
-    <form id="search-form">
-      <input
-        type="text"
-        name="searchQuery"
-        placeholder="Enter search term..."
-        required
-      />
-      <button type="submit">Search</button>
-    </form>
-
-    <div id="loader" class="loader" style="display: none">Loading...</div>
-    <div id="gallery"></div>
+    <main>
+      <div class="container">
+        <form class="search-form">
+          <input
+            class="search-input"
+            type="text"
+            name="query"
+            placeholder="Search images..."
+          />
+          <button class="search-btn" type="submit">Search</button>
+        </form>
+        <ul class="gallery"></ul>
+        <div class="loader" style="display: none">Loading...</div>
+      </div>
+    </main>
 
   </body>
 </html>
